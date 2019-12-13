@@ -1,2 +1,72 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+import sys
+
+from PyQt5 import QtCore,QtGui,QtWidgets
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QLineEdit
+from PyQt5.QtGui import *
+
+from Ui_Calculator import Ui_MainWindow
+
+class mywin(QtWidgets.QMainWindow,Ui_MainWindow):
+    def __init__(self):
+        super(mywin,self).__init__()
+        self.setupUi(self)
+        self.setWindowTitle('CET_Score')
+        self.Clear.clicked.connect(self.Clear_Result)
+        self.Calculation.clicked.connect(self.calibration)
+
+    def calibration(self):
+        # PartOne
+        if float(self.PartOne.text()) > 106.5:
+            self.PartOne.setText('106.5')
+        elif float(self.PartOne.text()) < 0:
+            self.PartOne.setText('0')
+        # PartTwo_SAB
+        if float(self.PartTwo_SAB.text()) > 15:
+            self.PartTwo_SAB.setText('15')
+        elif float(self.PartTwo_SAB.text()) < 0:
+            self.PartTwo_SAB.setText('0')        
+        # PartTwo_SC
+        if float(self.PartTwo_SC.text()) > 10:
+            self.PartTwo_SC.setText('10')
+        elif float(self.PartTwo_SC.text()) < 0:
+            self.PartTwo_SC.setText('0')
+        # PartThree_SA
+        if float(self.PartThree_SA.text()) > 10:
+            self.PartThree_SA.setText('10')
+        elif float(self.PartThree_SA.text()) < 0:
+            self.PartThree_SA.setText('0')
+        # PartThree_SB
+        if float(self.PartThree_SB.text()) > 10:
+            self.PartThree_SB.setText('10')
+        elif float(self.PartThree_SB.text()) < 0:
+            self.PartThree_SB.setText('0')
+        # PartThree_SC
+        if float(self.PartThree_SC.text()) > 10:
+            self.PartThree_SC.setText('10')
+        elif float(self.PartThree_SC.text()) < 0:
+            self.PartThree_SC.setText('0')
+        # PartFour
+        if float(self.PartFour.text()) > 106.5:
+            self.PartFour.setText('106.5')
+        elif float(self.PartFour.text()) < 0:
+            self.PartFour.setText('0')
+        score = float(self.PartOne.text()) + float(self.PartTwo_SAB.text())*7.1 + float(self.PartTwo_SC.text()) * 14.2 + float(self.PartThree_SA.text())*3.55 + float(self.PartThree_SB.text())*7.1 + float(self.PartThree_SC.text())*14.2 + float(self.PartFour.text())
+        self.Result.setText(str(score))
+        print(score)        
+        print("calibration finished")
+        return score
+        
+    def Clear_Result(self):
+        self.Result.clear()
+        self.Result.setText('Try Again')  
+        print("clear finished")
+    
+if __name__=="__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    w= mywin()
+    w.show()
+    sys.exit(app.exec())
+    
