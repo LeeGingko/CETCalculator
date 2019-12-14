@@ -2,18 +2,32 @@ import sys
 
 from PyQt5 import QtCore,QtGui,QtWidgets
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QApplication,QMainWindow,QMessageBox,QLineEdit
+from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from Ui_Calculator import Ui_MainWindow
 
 class mywin(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
-        super(mywin,self).__init__()
+        super().__init__()
+        self.InitUi()
+
+    def InitUi(self):
         self.setupUi(self)
+        # set Window's location
+        self.desktop = QApplication.desktop()
+        self.screenRect = self.desktop.screenGeometry()
+        self.width = self.screenRect.width()
+        self.height = self.screenRect.height()
+        print("Your screen's geometry is:")
+        print(self.width,'X',self.height)
+        self.resize(460,315)
+        self.move(int((self.width-460)/2),int((self.height-315)/2))
         self.setWindowTitle('CET_Score')
+        # connect the singal and the slot 
         self.Clear.clicked.connect(self.Clear_Result)
         self.Calculation.clicked.connect(self.calibration)
+        self.QuitCET.clicked.connect(self.quitWin)
 
     def calibration(self):
         # PartOne
@@ -52,19 +66,24 @@ class mywin(QtWidgets.QMainWindow,Ui_MainWindow):
         elif float(self.PartFour.text()) < 0:
             self.PartFour.setText('0')
         score = float(self.PartOne.text()) + float(self.PartTwo_SAB.text())*7.1 + float(self.PartTwo_SC.text()) * 14.2 + float(self.PartThree_SA.text())*3.55 + float(self.PartThree_SB.text())*7.1 + float(self.PartThree_SC.text())*14.2 + float(self.PartFour.text())
-        self.Result.setText(str(score))
+        self.Result.setText(str(int(score)))
         print(score)        
-        print("calibration finished")
-        return score
+        print("calculation finished")
         
     def Clear_Result(self):
         self.Result.clear()
         self.Result.setText('Try Again')  
         print("clear finished")
-    
+
+    def quitWin(self):
+        try:
+            print(".........Quiting.........")
+            self.close()
+        except:
+            print("----Quit went wrong!----")
+ 
 if __name__=="__main__":
     app = QtWidgets.QApplication(sys.argv)
-    w= mywin()
-    w.show()
-    sys.exit(app.exec())
-    
+    winCET= mywin()
+    winCET.show()
+    sys.exit(app.exec_())
