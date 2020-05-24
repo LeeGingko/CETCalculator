@@ -115,7 +115,6 @@ class mywin(QtWidgets.QMainWindow,Ui_MainWindow):
             self.close()
         except:
             print("-----Quit went wrong!-----")
- 
 
 
 if __name__=="__main__":
